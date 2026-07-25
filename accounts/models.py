@@ -10,7 +10,7 @@ class Customer(AbstractBaseUser):
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
-    email = models.EmailField(max_length=254, unique=True)
+    email = models.EmailField(max_length=254, unique=True, blank=True, null=True)
     objects = CustomerManager()
 
     class Status(models.TextChoices):
@@ -45,7 +45,7 @@ class Customer(AbstractBaseUser):
     dislike_count = models.IntegerField(default=0)
     active_device_count = models.IntegerField(default=0)
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['email','first_name','last_name','username']
+    REQUIRED_FIELDS = ['first_name','last_name','username']
 
     def __str__(self):
         return self.username

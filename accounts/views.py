@@ -1,6 +1,6 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserLoginSerializer, CheckOTPSerializer
+from .serializers import UserRegisterSerializer, UserLoginSerializer, CheckOTPSerializer, UserSerializer
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -10,9 +10,16 @@ import secrets
 from .redis_client import save_otp, get_otp, delete_otp, can_request_otp, increase_attempt, delete_attempt
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+    def perform_update(self, serializer):
+            serializer.save(updated_by=self.request.user)
+
 class UserRegistrationView(APIView):
     def post(self, request):
-        ser_data = UserSerializer(data=request.data)
+        ser_data = UserRegisterSerializer(data=request.data)
 
         if ser_data.is_valid():
             ser_data.save()
@@ -79,3 +86,4 @@ class CheckOTPCodeView(APIView):
             "refresh": str(refresh)},
             status=status.HTTP_200_OK
         )
+

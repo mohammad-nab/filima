@@ -138,7 +138,16 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "USER_ID_FIELD": "customer_uuid",
+    "USER_ID_CLAIM": "customer_uuid",
 }
 
+
+#sms web service setting
 KAVENEGAR_API_KEY = env('KAVENEGAR_API_KEY')
 PHONE_NUMBER = env('PHONE_NUMBER')
+
+
+#redis settings
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')

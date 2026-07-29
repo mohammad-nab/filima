@@ -18,3 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Passwords don't match")
         return data
 
+
+class UserLoginSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(required=True, max_length=11)
+
+class CheckOTPSerializer(serializers.Serializer):
+    otp_code = serializers.CharField(required=True, max_length=6)
+    phone_number = serializers.CharField(required=True, max_length=11)

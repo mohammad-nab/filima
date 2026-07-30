@@ -1,31 +1,34 @@
 from rest_framework import status, viewsets
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
-from .serializers import UserRegisterSerializer, UserLoginSerializer, CheckOTPSerializer, UserSerializer
+from .serializers import (UserRegisterSerializer, UserLoginSerializer,
+                          CheckOTPSerializer, UserSerializer, UserSelfSerializer)
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from utils import send_otp_code
 from rest_framework_simplejwt.tokens import RefreshToken
 import secrets
-from rest_framework.permissions import IsAdminUser
-from permissions import IsSelfOrAdmin
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .redis_client import save_otp, get_otp, delete_otp, can_request_otp, increase_attempt, delete_attempt
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
-
-    def get_permissions(self):
-        if self.action in ['retrieve', 'partial_update', 'update']:
-            permission_classes = [IsSelfOrAdmin]
-        else:
-            permission_classes = [IsAdminUser]
-
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAdminUser]
 
     def perform_update(self, serializer):
             serializer.save(updated_by=self.request.user)
+
+
+class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSelfSerializer
+
+    def get_object(self):
+        return self.request.user
+
 
 class UserRegistrationView(APIView):
     def post(self, request):

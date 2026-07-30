@@ -7,14 +7,23 @@ class UserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = "__all__"
         extra_kwargs = {"password": {"write_only": True}}
+        read_only_fields = [
+            "customer_uuid",
+            "created_at",
+            "updated_at",
+        ]
 
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
 
-class UserselfSerializer(serializers.ModelSerializer):
+
+class UserSelfSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['phone_number', 'username', 'first_name', 'last_name', 'email']
+        fields = ['phone_number', 'username', 'first_name', 'last_name', 'email',
+                  'is_subscribe', 'subscription_start_date', 'subscription_type']
+
+        read_only_fields = ('phone_number', 'is_subscribe', 'subscription_start_date', 'subscription_type')
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

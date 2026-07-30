@@ -24,6 +24,7 @@ class Customer(AbstractBaseUser):
         default=Status.INACTIVE
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_subscribe = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     comment_count = models.IntegerField(default=0)

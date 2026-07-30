@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'content.apps.ContentConfig',
     'rest_framework_simplejwt',
+    'tags.apps.TagsConfig',
 ]
 
 MIDDLEWARE = [

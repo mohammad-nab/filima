@@ -63,7 +63,8 @@ class CheckOTPCodeView(APIView):
         real_otp = get_otp(phone_number)
 
         if real_otp is None:
-            return Response({"message": "OTP has expired or does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "OTP has expired or does not exist."},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         elif real_otp != otp_code:
             attempts = increase_attempt(phone_number)

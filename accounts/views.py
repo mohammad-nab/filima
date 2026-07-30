@@ -7,12 +7,22 @@ from django.shortcuts import get_object_or_404
 from utils import send_otp_code
 from rest_framework_simplejwt.tokens import RefreshToken
 import secrets
+from rest_framework.permissions import IsAdminUser
+from permissions import IsSelfOrAdmin
 from .redis_client import save_otp, get_otp, delete_otp, can_request_otp, increase_attempt, delete_attempt
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action in ['retrieve', 'partial_update', 'update']:
+            permission_classes = [IsSelfOrAdmin]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
 
     def perform_update(self, serializer):
             serializer.save(updated_by=self.request.user)

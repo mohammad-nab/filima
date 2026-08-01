@@ -14,4 +14,6 @@ urlpatterns = [
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('check_otp/', views.CheckOTPCodeView.as_view(), name='check_otp'),
     path('',include(router.urls)),
+    path("users/me/", views.UserRetrieveUpdateAPIView.as_view(), name="user-me"),
+    path("logout/", views.UserLogoutView.as_view(), name="logout"),
 ]

@@ -49,3 +49,7 @@ class UserLoginSerializer(serializers.Serializer):
 class CheckOTPSerializer(serializers.Serializer):
     otp_code = serializers.CharField(required=True, max_length=6)
     phone_number = serializers.CharField(required=True, max_length=11)
+
+
+class UserLogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(required=True)

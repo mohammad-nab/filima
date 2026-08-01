@@ -2,13 +2,14 @@ from rest_framework import status, viewsets
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from .serializers import (UserRegisterSerializer, UserLoginSerializer,
-                          CheckOTPSerializer, UserSerializer, UserSelfSerializer)
+                          CheckOTPSerializer, UserSerializer, UserSelfSerializer, UserLogoutSerializer)
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from utils import send_otp_code
 from rest_framework_simplejwt.tokens import RefreshToken
 import secrets
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .redis_client import save_otp, get_otp, delete_otp, can_request_otp, increase_attempt, delete_attempt
 
@@ -101,3 +102,21 @@ class CheckOTPCodeView(APIView):
             status=status.HTTP_200_OK
         )
 
+
+class UserLogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = UserLogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            token = RefreshToken(serializer.validated_data['refresh'])
+            token.blacklist()
+        except TokenError:
+            return Response(
+                {"detail": "Invalid or expired token."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

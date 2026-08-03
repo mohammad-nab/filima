@@ -57,6 +57,7 @@ class LanguageStatus(models.Model):
 
 
 class BannerLocation(models.Model):
+    banner_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -64,18 +65,18 @@ class BannerLocation(models.Model):
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='update_location')
 
     def __str__(self):
-        return self.location
+        return f"{self.banner_name} - {self.location}"
 
 
 class TargetAudience(models.Model):
-    target = models.CharField(max_length=200)
+    audience = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='create_audience')
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='update_audience')
 
     def __str__(self):
-        return self.target
+        return self.audience
 
 
 class InformType(models.Model):

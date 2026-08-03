@@ -3,12 +3,14 @@ from rest_framework.response import Response
 from .models import Content
 from .serializers import ContentSerializer
 from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 
 
 
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
+    permission_classes = [IsAdminUser]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

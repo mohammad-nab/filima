@@ -8,6 +8,7 @@ from .serializers import (UserRegisterSerializer, UserLoginSerializer,
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from conf.pagination import CustomPagination
 from utils import send_otp_code
 from rest_framework_simplejwt.tokens import RefreshToken
 import secrets
@@ -20,6 +21,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+    pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['status_type']
     search_fields = ['phone_number']

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'content.apps.ContentConfig',
     'rest_framework_simplejwt',
     'tags.apps.TagsConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -132,7 +133,7 @@ AUTH_USER_MODEL = 'accounts.Customer'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
 

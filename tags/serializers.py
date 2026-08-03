@@ -12,46 +12,54 @@ class GenreSerializer(serializers.ModelSerializer):
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
-        fields = "full_name"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = "name"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class LanguageStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageStatus
-        fields = "status"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class YearSerializer(serializers.ModelSerializer):
     class Meta:
         model = Year
-        fields = "year"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class BannerLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannerLocation
-        fields = ['location', 'banner_name']
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class TargetAudienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TargetAudience
-        fields = "audience"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class InformTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = InformType
-        fields = "type"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class AccountStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountStatus
-        fields = "status"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")

@@ -10,6 +10,7 @@ class Customer(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
+    profile_path = models.CharField(max_length=300, null=True, blank=True)
     phone_number = models.CharField(max_length=11, unique=True)
     email = models.EmailField(max_length=254, unique=True, blank=True, null=True)
     objects = CustomerManager()

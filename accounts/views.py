@@ -1,4 +1,6 @@
 from rest_framework import status, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from .serializers import (UserRegisterSerializer, UserLoginSerializer,
@@ -18,6 +20,11 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filterset_fields = ['status_type']
+    search_fields = ['phone_number']
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
 
     def perform_update(self, serializer):
             serializer.save(updated_by=self.request.user)

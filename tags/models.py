@@ -1,8 +1,10 @@
+import uuid
 from django.db import models
 from django.conf import settings
 
 
 class Genre(models.Model):
+    genre_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -14,6 +16,7 @@ class Genre(models.Model):
 
 
 class Actor(models.Model):
+    actor_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,6 +27,7 @@ class Actor(models.Model):
         return self.full_name
 
 class Country(models.Model):
+    country_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -35,6 +39,7 @@ class Country(models.Model):
 
 
 class Year(models.Model):
+    year_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -46,6 +51,7 @@ class Year(models.Model):
 
 
 class LanguageStatus(models.Model):
+    language_status_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     status = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -57,18 +63,21 @@ class LanguageStatus(models.Model):
 
 
 class BannerLocation(models.Model):
+    banner_location_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     banner_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='create_location')
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='update_location')
+    last_name = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.banner_name} - {self.location}"
 
 
 class TargetAudience(models.Model):
+    target_audience_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     audience = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -80,6 +89,7 @@ class TargetAudience(models.Model):
 
 
 class InformType(models.Model):
+    inform_type_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -91,6 +101,7 @@ class InformType(models.Model):
 
 
 class AccountStatus(models.Model):
+    account_status_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     status = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

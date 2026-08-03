@@ -5,7 +5,8 @@ from tags.models import *
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = "name"
+        fields = "__all__"
+        read_only_fields = ("created_by", "updated_by", "created_at", "updated_at")
 
 
 class ActorSerializer(serializers.ModelSerializer):

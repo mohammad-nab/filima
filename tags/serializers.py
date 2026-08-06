@@ -89,7 +89,24 @@ class BannerLocationSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("slug", "created_by", "updated_by", "created_at", "updated_at")
 
-    #TODO banner location validator
+        def validate(self, attrs):
+            banner_name = attrs.get("banner_name")
+            location = attrs.get("location")
+
+            qs = BannerLocation.objects.filter(
+                banner_name__iexact=banner_name,
+                location__iexact=location,
+            )
+
+            if self.instance:
+                qs = qs.exclude(pk=self.instance.pk)
+
+            if qs.exists():
+                raise serializers.ValidationError(
+                    "A banner with this name and location already exists."
+                )
+
+            return attrs
 
 
 class TargetAudienceSerializer(serializers.ModelSerializer):

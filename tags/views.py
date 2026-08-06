@@ -8,6 +8,8 @@ class GenreViewSet(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
     permission_classes = [IsAdminUser]
 
+    lookup_field = "slug"
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
 
@@ -19,6 +21,8 @@ class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
     permission_classes = [IsAdminUser]
+
+    lookup_field = "slug"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -32,6 +36,8 @@ class CountryViewSet(viewsets.ModelViewSet):
     serializer_class = CountrySerializer
     permission_classes = [IsAdminUser]
 
+    lookup_field = "slug"
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
 
@@ -43,6 +49,8 @@ class LanguageStatusViewSet(viewsets.ModelViewSet):
     queryset = LanguageStatus.objects.all()
     serializer_class = LanguageStatusSerializer
     permission_classes = [IsAdminUser]
+
+    lookup_field = "slug"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -56,6 +64,8 @@ class YearViewSet(viewsets.ModelViewSet):
     serializer_class = YearSerializer
     permission_classes = [IsAdminUser]
 
+    lookup_field = "slug"
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
 
@@ -67,6 +77,8 @@ class BannerLocationViewSet(viewsets.ModelViewSet):
     queryset = BannerLocation.objects.all()
     serializer_class = BannerLocationSerializer
     permission_classes = [IsAdminUser]
+
+    lookup_field = "slug"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -92,6 +104,7 @@ class InformTypeViewSet(viewsets.ModelViewSet):
     serializer_class = InformTypeSerializer
     permission_classes = [IsAdminUser]
 
+    lookup_field = "slug"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -104,6 +117,8 @@ class AccountStatusViewSet(viewsets.ModelViewSet):
     queryset = AccountStatus.objects.all()
     serializer_class = AccountStatusSerializer
     permission_classes = [IsAdminUser]
+
+    lookup_field = "slug"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)

@@ -39,7 +39,7 @@ class Customer(AbstractBaseUser):
         TWELVE = 12, "Twelve months"
 
     subscription_type = models.CharField(
-        max_length=8,
+        max_length=1,
         choices=SubscriptionType,
         blank=True,
         null=True

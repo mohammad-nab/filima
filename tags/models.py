@@ -51,6 +51,11 @@ class Actor(models.Model):
     def __str__(self):
         return self.full_name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.full_name)
+
+        super().save(*args, **kwargs)
+
 class Country(models.Model):
     country_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, unique=True)
@@ -70,6 +75,11 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
 
 
 class Year(models.Model):
@@ -92,6 +102,10 @@ class Year(models.Model):
     def __str__(self):
         return self.year
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.year)
+
+        super().save(*args, **kwargs)
 
 class LanguageStatus(models.Model):
     language_status_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -112,6 +126,11 @@ class LanguageStatus(models.Model):
 
     def __str__(self):
         return self.status
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.status)
+
+        super().save(*args, **kwargs)
 
 
 class BannerLocation(models.Model):
@@ -137,6 +156,11 @@ class BannerLocation(models.Model):
     def __str__(self):
         return f"{self.banner_name} - {self.location}"
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(f"{self.banner_name}-{self.location}")
+
+        super().save(*args, **kwargs)
+
 
 class TargetAudience(models.Model):
     target_audience_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -157,6 +181,11 @@ class TargetAudience(models.Model):
 
     def __str__(self):
         return self.audience
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.audience)
+
+        super().save(*args, **kwargs)
 
 
 class InformType(models.Model):
@@ -179,6 +208,11 @@ class InformType(models.Model):
     def __str__(self):
         return self.type
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.type)
+
+        super().save(*args, **kwargs)
+
 
 class AccountStatus(models.Model):
     account_status_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -199,3 +233,8 @@ class AccountStatus(models.Model):
 
     def __str__(self):
         return self.status
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.status)
+
+        super().save(*args, **kwargs)

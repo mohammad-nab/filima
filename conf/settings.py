@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'tags.apps.TagsConfig',
     'django_filters',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,21 @@ PHONE_NUMBER = env('PHONE_NUMBER')
 #redis settings
 REDIS_HOST = env('REDIS_HOST')
 REDIS_PORT = env('REDIS_PORT')
+
+
+#arvan cloud object storages
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "endpoint_url": env('ENDPOINT_URL'),
+            "access_key": env('AWS_ACCESS_KEY_ID'),
+            "secret_key": env('AWS_SECRET_ACCESS_KEY'),
+            "bucket_name": env('AWS_STORAGE_BUCKET_NAME'),
+            "file_overwrite": env('AWS_S3_FILE_OVERWRITE')
+        }
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }
+}

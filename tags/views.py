@@ -7,7 +7,6 @@ class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [IsAdminUser]
-
     lookup_field = "slug"
 
     def perform_create(self, serializer):
@@ -15,6 +14,10 @@ class GenreViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class ActorViewSet(viewsets.ModelViewSet):
@@ -30,6 +33,10 @@ class ActorViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
+
 
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
@@ -43,6 +50,10 @@ class CountryViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class LanguageStatusViewSet(viewsets.ModelViewSet):
@@ -58,6 +69,10 @@ class LanguageStatusViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
+
 
 class YearViewSet(viewsets.ModelViewSet):
     queryset = Year.objects.all()
@@ -71,6 +86,10 @@ class YearViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class BannerLocationViewSet(viewsets.ModelViewSet):
@@ -86,6 +105,10 @@ class BannerLocationViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
+
 
 class TargetAudienceViewSet(viewsets.ModelViewSet):
     queryset = TargetAudience.objects.all()
@@ -97,6 +120,10 @@ class TargetAudienceViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
 
 
 class InformTypeViewSet(viewsets.ModelViewSet):
@@ -112,6 +139,10 @@ class InformTypeViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
+
 
 class AccountStatusViewSet(viewsets.ModelViewSet):
     queryset = AccountStatus.objects.all()
@@ -125,3 +156,7 @@ class AccountStatusViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()

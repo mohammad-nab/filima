@@ -27,6 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ['phone_number']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
+    lookup_field = "slug"
 
     def perform_update(self, serializer):
             serializer.save(updated_by=self.request.user)
@@ -35,6 +36,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSelfSerializer
+    lookup_field = "slug"
 
     def get_object(self):
         return self.request.user

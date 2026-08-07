@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {"password": {"write_only": True}}
         read_only_fields = [
+            "slug",
             "customer_uuid",
             "created_at",
             "updated_at",
@@ -23,7 +24,7 @@ class UserSelfSerializer(serializers.ModelSerializer):
         fields = ['phone_number', 'username', 'first_name', 'last_name', 'email',
                   'is_subscribe', 'subscription_start_date', 'subscription_type']
 
-        read_only_fields = ('phone_number', 'is_subscribe', 'subscription_start_date', 'subscription_type')
+        read_only_fields = ("slug", 'phone_number', 'is_subscribe', 'subscription_start_date', 'subscription_type')
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

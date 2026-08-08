@@ -33,6 +33,24 @@ class ActorSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("An actor with this name already exists.")
         return value
 
+
+class DirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        fields = "__all__"
+        read_only_fields = ("slug", "created_by", "updated_by", "created_at", "updated_at")
+
+    def validate_full_name(self, value):
+        value = value.strip()
+        qs = Director.objects.filter(full_name__iexact=value)
+
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError("A director with this name already exists.")
+        return value
+
+
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country

@@ -62,6 +62,36 @@ class Actor(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class Director(models.Model):
+    director_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    full_name = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                   null=True, related_name='create_director')
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                   null=True, related_name='update_director')
+    is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                Lower("full_name"),
+                name="unique_director_name_case_insensitive",
+            )
+        ]
+
+    def __str__(self):
+        return self.full_name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.full_name)
+
+        super().save(*args, **kwargs)
+
+
 class Country(models.Model):
     country_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, unique=True)

@@ -1,5 +1,6 @@
 from rest_framework import routers
 from . import views
+from rest_framework.urls import path
 
 
 app_name = 'tags'
@@ -15,5 +16,7 @@ router.register(r'inform_type', views.InformTypeViewSet)
 router.register(r'account_status', views.AccountStatusViewSet)
 
 
-urlpatterns = []
+urlpatterns = [
+    path("search/", views.TagSearchApiView.as_view()),
+]
 urlpatterns += router.urls

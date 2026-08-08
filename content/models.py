@@ -24,6 +24,7 @@ class Content(models.Model):
     is_dubbed = models.BooleanField(default=False)
     like_count = models.IntegerField(default=0)
     dislike_count = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.english_name

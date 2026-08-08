@@ -54,3 +54,10 @@ class CheckOTPSerializer(serializers.Serializer):
 
 class UserLogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField(required=True)
+
+
+class UserUploadProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['profile_picture', "updated_at"]
+        read_only_fields = ["updated_at"]

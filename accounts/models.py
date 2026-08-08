@@ -11,7 +11,7 @@ class Customer(AbstractBaseUser):
     last_name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
     username = models.CharField(max_length=100, unique=True)
-    profile_path = models.CharField(max_length=300, null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/%Y-%m-%d',null=True, blank=True)
     phone_number = models.CharField(max_length=11, unique=True)
     email = models.EmailField(max_length=254, unique=True, blank=True, null=True)
     objects = CustomerManager()

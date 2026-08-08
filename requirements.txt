@@ -8,3 +8,4 @@ django-filter==26.1
 redis==8.0.1
 boto3==1.43.65
 django-storages==1.14.6
+pillow==12.3.0

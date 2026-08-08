@@ -4,7 +4,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from .serializers import (UserRegisterSerializer, UserLoginSerializer,
-                          CheckOTPSerializer, UserSerializer, UserSelfSerializer, UserLogoutSerializer)
+                          CheckOTPSerializer, UserSerializer, UserSelfSerializer, UserLogoutSerializer, UserUploadProfileSerializer)
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -131,3 +131,24 @@ class UserLogoutView(APIView):
             )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserUploadProfilePicView(APIView):
+    permission_classes = []
+
+    # def patch(self, request):
+    #     print("USER:", request.user)
+    #     print("USER TYPE:", type(request.user))
+    #     print("USER PK:", request.user.pk)
+    #     serializer = UserUploadProfileSerializer(instance=request.user,data=request.data,partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #
+    #     serializer.save()
+    #     return Response(
+    #         serializer.data,
+    #         status=status.HTTP_200_OK
+    #     )
+
+    def patch(self, request):
+        print("========== VIEW REACHED ==========")
+        return Response({"message": "view reached"})

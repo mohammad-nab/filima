@@ -134,21 +134,14 @@ class UserLogoutView(APIView):
 
 
 class UserUploadProfilePicView(APIView):
-    permission_classes = []
-
-    # def patch(self, request):
-    #     print("USER:", request.user)
-    #     print("USER TYPE:", type(request.user))
-    #     print("USER PK:", request.user.pk)
-    #     serializer = UserUploadProfileSerializer(instance=request.user,data=request.data,partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #
-    #     serializer.save()
-    #     return Response(
-    #         serializer.data,
-    #         status=status.HTTP_200_OK
-    #     )
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request):
-        print("========== VIEW REACHED ==========")
-        return Response({"message": "view reached"})
+        serializer = UserUploadProfileSerializer(instance=request.user,data=request.data,partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )

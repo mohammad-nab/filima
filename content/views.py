@@ -20,7 +20,7 @@ class ContentViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user,updated_by=self.request.user)
+        pass
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)

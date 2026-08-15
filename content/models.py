@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
-from tags.models import Genre, Country, Actor
+from django.utils.text import slugify
+from tags.models import Genre, Country, Actor, LanguageStatus
 
 
 class Content(models.Model):
@@ -26,6 +27,7 @@ class Content(models.Model):
     like_count = models.IntegerField(default=0)
     dislike_count = models.IntegerField(default=0)
     is_deleted = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=100, unique=True)
 
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", "Active"
@@ -43,33 +45,52 @@ class Content(models.Model):
     def __str__(self):
         return self.english_name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.english_name)
+
+        super().save(*args, **kwargs)
+
 
 class ContentGenre(models.Model):
     content_genre_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
-    content_uuid = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_genre')
-    genre_uuid = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='content_genre')
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_genres')
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='content_genres')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='created_content_genre', null=True)
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_content_genre', null=True)
+    is_deleted = models.BooleanField(default=False)
 
 
 class ProducerCountry(models.Model):
     producer_country_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
-    content_uuid = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_country')
-    country_uuid = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='content_country')
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_countries')
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='content_countries')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='created_producer_country', null=True)
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_product_country', null=True)
+    is_deleted = models.BooleanField(default=False)
 
 
 class ContentActor(models.Model):
     content_actor_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
-    content_uuid = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_actor')
-    actor_uuid = models.ForeignKey(Actor, on_delete=models.CASCADE, related_name='content_actor')
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_actors')
+    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, related_name='content_actors')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='created_actor', null=True)
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_actor', null=True)
+    is_deleted = models.BooleanField(default=False)
+
+
+class ContentLanguageStatus(models.Model):
+    language_status_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_language_statuses')
+    language_status = models.ForeignKey(LanguageStatus, on_delete=models.CASCADE, related_name='content_language_statuses')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='created_language_status', null=True)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_language_status', null=True)
+    is_deleted = models.BooleanField(default=False)
 

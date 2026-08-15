@@ -13,18 +13,18 @@ class ContentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_fields = []
-    search_fields = ['english_name', 'persian_name', 'content_uuid']
+    filterset_fields = ['status_type']
+    search_fields = ['english_name', 'persian_name']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
     lookup_field = "slug"
 
     def perform_create(self, serializer):
-        pass
+        serializer.save(created_by=self.request.user, updated_by=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
-        instance.save()
+        instance.save(update_fields=["is_deleted"])

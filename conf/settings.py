@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts.apps.AccountsConfig',
     'content.apps.ContentConfig',
+    'image.apps.ImageConfig',
     'rest_framework_simplejwt',
     'tags.apps.TagsConfig',
     'django_filters',

@@ -51,6 +51,17 @@ class Content(models.Model):
         super().save(*args, **kwargs)
 
 
+class VideoContent(models.Model):
+    video_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_videos')
+    season = models.IntegerField(blank=True, null=True)
+    episode = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='created_content_video', null=True)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_content_video', null=True)
+
+
 class ContentGenre(models.Model):
     content_genre_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
     content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_genres')

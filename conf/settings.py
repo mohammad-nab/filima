@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'content.apps.ContentConfig',
     'image.apps.ImageConfig',
     'subscription.apps.SubscriptionConfig',
+    'report.apps.ReportConfig',
     'rest_framework_simplejwt',
     'tags.apps.TagsConfig',
     'django_filters',

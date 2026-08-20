@@ -1,13 +1,15 @@
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
 
 
 class Subscription(models.Model):
     subscription_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    status_type = models.CharField(blank=True, null=True, max_length=50)
+    status_type = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField()
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='subscription_created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='subscription_updated_by')
     title = models.CharField(max_length=200)
@@ -19,20 +21,37 @@ class Subscription(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+
+        super().save(*args,**kwargs)
+
 
 class SubscriptionConf(models.Model):
     subscription_conf_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=200)
+    subscription_conf_title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    slug = models.SlugField()
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(blank=True, null=True, upload_to='subscription_conf_image')
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='subscription_conf_created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='subscription_conf_updated_by')
-    status_type = models.CharField(blank=True, null=True, max_length=50)
+
+    class Status(models.TextChoices):
+        ACTIVE = 'ACTIVE', 'active'
+        INACTIVE = 'INACTIVE', 'inactive'
+
+    status_type = models.CharField(max_length=8, choices=Status, default=Status.ACTIVE)
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        return self.subscription_conf_title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.subscription_conf_title)
+
+        super().save(*args, **kwargs)
 
 
 class SubscriptionPayment(models.Model):

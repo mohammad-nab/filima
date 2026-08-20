@@ -25,6 +25,7 @@ urlpatterns = [
     path('content/', include('content.urls', namespace='content')),
     path('tags/', include('tags.urls', namespace='tags')),
     path('image/', include('image.urls', namespace='image')),
+    path('subscription/', include('subscription.urls', namespace='subscription')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

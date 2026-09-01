@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Content, ContentGenre, ContentActor, ProducerCountry, ContentLanguageStatus
+from .models import Content, ContentGenre, ContentActor, ProducerCountry, ContentLanguageStatus, LikeDislike
 from tags.models import Genre, Actor, Country, LanguageStatus
 from django.db import transaction
 
@@ -115,3 +115,10 @@ class ContentSerializer(serializers.ModelSerializer):
         ])
 
         return content
+
+
+class  LikeDiskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LikeDislike
+        fields = "__all__"
+        read_only_fields = ["is_deleted", "created_at", "updated_at", "customer", "content", "like_dislike_uuid"]

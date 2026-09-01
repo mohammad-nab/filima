@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'content.apps.ContentConfig',
     'image.apps.ImageConfig',
     'subscription.apps.SubscriptionConfig',
-    'report.apps.ReportConfig',
     'rest_framework_simplejwt',
     'tags.apps.TagsConfig',
     'django_filters',
@@ -143,7 +142,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     "USER_ID_FIELD": "customer_uuid",
     "USER_ID_CLAIM": "customer_uuid",
 }

@@ -105,3 +105,28 @@ class ContentLanguageStatus(models.Model):
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='updated_language_status', null=True)
     is_deleted = models.BooleanField(default=False)
 
+
+class LikeDislike(models.Model):
+    like_dislike_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True)
+
+    class ReactionType(models.TextChoices):
+        Like = "like", "Like"
+        Dislike = "dislike", "Dislike"
+
+    reaction = models.CharField(choices=ReactionType, max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["customer", "content"],
+                name="unique_customer_content_reaction"
+            )
+        ]
+
+    def __str__(self):
+        return str(f"{self.content} - {self.customer}")

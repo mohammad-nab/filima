@@ -76,11 +76,16 @@ class Discount(models.Model):
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='discount_updated_by')
     code = models.CharField(max_length=50)
     status_type = models.CharField(max_length=50)
+    slug = models.SlugField()
     percentage = models.FloatField()
     max_use_limit = models.PositiveSmallIntegerField()
     hours_limit = models.PositiveSmallIntegerField()
-    used_count = models.PositiveSmallIntegerField()
+    used_count = models.PositiveSmallIntegerField(default=0)
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.code
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.code)
+        super().save(*args, **kwargs)

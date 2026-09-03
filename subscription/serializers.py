@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from subscription.models import Subscription, SubscriptionConf
+from subscription.models import Subscription, SubscriptionConf, Discount
 from django.db import transaction
 
 
@@ -27,3 +27,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         SubscriptionConf.objects.create(**subscription_conf)
 
         return subscription
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
+        read_only_fields = ('slug', 'created_at', 'updated_at', 'created_by', 'updated_by', 'is_deleted')

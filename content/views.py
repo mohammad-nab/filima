@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import viewsets, views
-from .models import Content, LikeDislike
-from .serializers import ContentSerializer, LikeDiskSerializer
+from .models import Content, LikeDislike, VideoContent
+from .serializers import ContentSerializer, LikeDiskSerializer, VideoContentSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from conf.pagination import CustomPagination
 from django_filters.rest_framework import DjangoFilterBackend
@@ -53,3 +53,13 @@ class LikeDislikeView(views.APIView):
 
 
 
+class VideoContentViewSet(viewsets.ModelViewSet):
+    queryset = VideoContent.objects.all()
+    serializer_class = VideoContentSerializer
+    permission_classes = [IsAdminUser]
+
+    def perform_create(self, serializer):
+        serializer.save(
+            created_by=self.request.user,
+            updated_by=self.request.user
+        )

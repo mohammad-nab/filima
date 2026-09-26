@@ -56,7 +56,7 @@ class LikeDislikeView(views.APIView):
 
 
 class VideoContentViewSet(viewsets.ModelViewSet):
-    queryset = VideoContent.objects.all()
+    queryset = VideoContent.objects.filter(is_deleted=False)
     serializer_class = VideoContentSerializer
     permission_classes = [IsAdminUser]
 
@@ -66,3 +66,19 @@ class VideoContentViewSet(viewsets.ModelViewSet):
             updated_by=self.request.user
         )
         transaction.on_commit(lambda: process_video.delay(str(video.video_uuid)))
+
+    def perform_update(self, serializer):
+        video_changed = "video" in serializer.validated_data
+
+        video = serializer.save(
+            updated_by=self.request.user
+        )
+
+        if video_changed:
+            transaction.on_commit(
+                lambda: process_video.delay(str(video.video_uuid))
+            )
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save(update_fields=["is_deleted"])

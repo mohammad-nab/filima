@@ -6,4 +6,4 @@ from content.models import VideoContent
 def process_video(video_uuid):
     video_content = VideoContent.objects.get(video_uuid=video_uuid)
 
-    print(f"Processing video: {video_content.video.name}")
+    return f"Processing video: {video_content.video.name}"

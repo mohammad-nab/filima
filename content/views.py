@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from rest_framework.response import Response
 from rest_framework import viewsets, views
 from .models import Content, LikeDislike, VideoContent
@@ -8,6 +9,7 @@ from conf.pagination import CustomPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import status
+from .tasks import process_video
 
 
 class ContentViewSet(viewsets.ModelViewSet):
@@ -59,7 +61,8 @@ class VideoContentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
     def perform_create(self, serializer):
-        serializer.save(
+        video = serializer.save(
             created_by=self.request.user,
             updated_by=self.request.user
         )
+        transaction.on_commit(lambda: process_video.delay(str(video.video_uuid)))

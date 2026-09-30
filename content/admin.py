@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, ContentGenre, ProducerCountry, ContentActor, ContentLanguageStatus, LikeDislike
+from .models import Content, ContentGenre, ProducerCountry, ContentActor, ContentLanguageStatus, LikeDislike, VideoContent
 
 
 admin.site.register(Content)
@@ -8,3 +8,4 @@ admin.site.register(ProducerCountry)
 admin.site.register(ContentActor)
 admin.site.register(ContentLanguageStatus)
 admin.site.register(LikeDislike)
+admin.site.register(VideoContent)

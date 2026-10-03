@@ -145,3 +145,18 @@ class LikeDislike(models.Model):
 
     def __str__(self):
         return str(f"{self.content} - {self.customer}")
+
+
+class ProcessedVideo(models.Model):
+    video_content = models.ForeignKey(
+        VideoContent,
+        on_delete=models.CASCADE,
+        related_name="processed_videos",
+    )
+    quality = models.PositiveIntegerField()
+    file = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("video_content", "quality")
+

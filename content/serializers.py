@@ -5,7 +5,7 @@ from tags.models import Genre, Actor, Country, LanguageStatus
 from django.db import transaction
 
 
-class ContentSerializer(serializers.ModelSerializer):
+class ContentAdminSerializer(serializers.ModelSerializer):
 
     genres = serializers.PrimaryKeyRelatedField(
         queryset=Genre.objects.all(),
@@ -116,6 +116,13 @@ class ContentSerializer(serializers.ModelSerializer):
         ])
 
         return content
+
+
+class ContentListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ["content_uuid", "english_name", "persian_name", "release_year", "duration", "imdb_rate", "age_rate"]
+        read_only_fields = "__all__"
 
 
 class  LikeDiskSerializer(serializers.ModelSerializer):

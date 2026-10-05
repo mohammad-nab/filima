@@ -3,18 +3,18 @@ from django.db import transaction
 from rest_framework.response import Response
 from rest_framework import viewsets, views
 from .models import Content, LikeDislike, VideoContent
-from .serializers import ContentSerializer, LikeDiskSerializer, VideoContentSerializer
+from .serializers import ContentAdminSerializer, LikeDiskSerializer, VideoContentSerializer, ContentListSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from conf.pagination import CustomPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework import status
+from rest_framework import status, generics
 from .tasks import process_video
 
 
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
-    serializer_class = ContentSerializer
+    serializer_class = ContentAdminSerializer
     permission_classes = [IsAdminUser]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -34,6 +34,18 @@ class ContentViewSet(viewsets.ModelViewSet):
         instance.is_deleted = True
         instance.save(update_fields=["is_deleted"])
 
+
+class ContentListView(generics.ListAPIView):
+    queryset = Content.objects.filter(
+        is_deleted=False,
+        status_type=Content.Status.ACTIVE,
+    )
+    serializer_class = ContentListSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    search_fields = ['english_name', 'persian_name', "director"]
+    filterset_fields = ["type", "is_free", "is_dubbed", "age_rate",]
 
 class LikeDislikeView(views.APIView):
     permission_classes = [IsAuthenticated]

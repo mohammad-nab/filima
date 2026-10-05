@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'accounts.apps.AccountsConfig',
     'content.apps.ContentConfig',
     'image.apps.ImageConfig',
@@ -53,6 +52,8 @@ INSTALLED_APPS = [
     'tags.apps.TagsConfig',
     'django_filters',
     'storages',
+    'rest_framework',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -142,6 +143,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -184,3 +186,11 @@ STORAGES = {
 #celery settings
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
 CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/2"
+
+#spectcular setting
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'filima rest',
+    'DESCRIPTION': 'A movie stream website',
+    'VERSION': '1.0.0',
+
+}

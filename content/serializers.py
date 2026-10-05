@@ -122,7 +122,7 @@ class ContentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
         fields = ["content_uuid", "english_name", "persian_name", "release_year", "duration", "imdb_rate", "age_rate"]
-        read_only_fields = "__all__"
+        read_only_fields = ["content_uuid", "english_name", "persian_name", "release_year", "duration", "imdb_rate", "age_rate"]
 
 
 class  LikeDiskSerializer(serializers.ModelSerializer):

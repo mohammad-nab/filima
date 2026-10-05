@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import status, generics
 from .tasks import process_video
+from .filters import ContentFilter
 
 
 class ContentViewSet(viewsets.ModelViewSet):
@@ -45,7 +46,15 @@ class ContentListView(generics.ListAPIView):
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['english_name', 'persian_name', "director"]
-    filterset_fields = ["type", "is_free", "is_dubbed", "age_rate",]
+    filterset_class = ContentFilter
+    ordering_fields = [
+        "created_at",
+        "release_year",
+        "imdb_rate",
+        "like_count",
+    ]
+
+    ordering = ["-created_at"]
 
 class LikeDislikeView(views.APIView):
     permission_classes = [IsAuthenticated]

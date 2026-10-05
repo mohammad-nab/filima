@@ -4,6 +4,7 @@ import subprocess
 import os
 import tempfile
 import json
+from .models import ProcessedVideo
 from django.core.files import File
 from django.core.files.storage import default_storage
 
@@ -87,6 +88,11 @@ def process_video(video_uuid):
                     saved_path = default_storage.save(
                         output_name,
                         File(output_file),
+                    )
+                    ProcessedVideo.objects.create(
+                        video_content= video_content,
+                        quality=quality,
+                        file=saved_path
                     )
 
                 print(f"{quality}p video uploaded:", saved_path)

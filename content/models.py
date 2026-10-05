@@ -148,6 +148,7 @@ class LikeDislike(models.Model):
 
 
 class ProcessedVideo(models.Model):
+    processed_video_uuid = models.UUIDField(primary_key=True ,default=uuid.uuid4, editable=False)
     video_content = models.ForeignKey(
         VideoContent,
         on_delete=models.CASCADE,

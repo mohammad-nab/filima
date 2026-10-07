@@ -136,7 +136,7 @@ class ProcessedVideoDiskSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessedVideo
         fields = "__all__"
-        read_only_filed = "__all__"
+        read_only_filed = ["processed_video_uuid", "video_content", "quality", "file", "created_at"]
 
 class VideoContentSerializer(serializers.ModelSerializer):
     processed_videos = ProcessedVideoDiskSerializer(many=True, read_only=True)
@@ -144,5 +144,4 @@ class VideoContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoContent
         fields = "__all__"
-        read_only_fields = ["created_at", "updated_at", "created_by", "updated_by", "is_deleted"
-        ]
+        read_only_fields = ["created_at", "updated_at", "created_by", "updated_by", "is_deleted"]
